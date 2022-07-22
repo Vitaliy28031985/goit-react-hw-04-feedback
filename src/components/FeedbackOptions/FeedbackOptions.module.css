@@ -1,0 +1,24 @@
+.conteiner {
+   width: 100%;
+ 
+padding-bottom: 50px;
+  padding-top: 50px;
+   background-color: aqua;
+   margin-right: -40px;
+}
+
+.button {
+   font-size: 15px;
+   margin-left: 20px;
+   color: aliceblue;
+   background-color: black;
+   border: 0px;
+   padding: 10px;
+   border-radius: 5px;
+}
+
+.button:hover, .button:focus {
+background-color: beige;
+color: black;
+border: 0px;
+}
