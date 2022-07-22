@@ -1,47 +1,56 @@
 import React from "react";
-
+import { useState } from 'react';
 import {Section} from 'components/Section/Section';
 import {FeedbackOptions} from 'components/FeedbackOptions/FeedbackOptions';
 import {Statistics} from 'components/Statistics/Statistics'
 import {Notification} from 'components/Notification/Notification'
 
-export class App extends React.Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0
-  }
-  
-  countTotalFeedback = () => {
-    const { good, neutral, bad } = this.state;
-    return good + bad + neutral;
+export const App = () => {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+ const countTotalFeedback = () => {
+  let total = 0;
+  total = good + bad + neutral;
+  return total;
   };
 
-  handleFeedback = ({ target }) => {
+  const handleFeedback = ({ target }) => {
     const { feedback } = target.dataset;
-    this.setState(prevState => {
-    return { [feedback]: prevState[feedback] + 1 };
-    });
+    switch (feedback) {
+
+      case 'good':
+      setGood(prevState => prevState + 1);
+      break;
+      case 'neutral':
+      setNeutral(prevState => prevState + 1);
+      break;
+      case 'bad':
+      setBad(prevState => prevState + 1);
+      break;
+
+      default:
+        return;
+    }
   };
 
-  countPositiveFeedbackPercentage = () => {
-    let total = this.countTotalFeedback();
-    const {good} = this.state;
+  const countPositiveFeedbackPercentage = () => {
+    let total = countTotalFeedback();
     return total ? Math.round((good / total) * 100) : 0;
   };
 
 
-
-  render() {
-    const { good, neutral, bad } = this.state;
-    const total = this.countTotalFeedback();
-    const positivePercentage = this.countPositiveFeedbackPercentage();
+    const total = countTotalFeedback();
+    const positivePercentage = countPositiveFeedbackPercentage();
   
   
   return (
    <>
   <Section title={'Please leave feedback'}>
-  <FeedbackOptions options={this.state} onFeedback={this.handleFeedback}/>
+  <FeedbackOptions 
+  options={['good', 'neutral', 'bad']}
+  onFeedback={handleFeedback}/>
   </Section>
   <Section title={'Statistics'}>
   {total ? (
@@ -57,6 +66,6 @@ export class App extends React.Component {
     </>
     
   );
-}
+
 };
 
